@@ -2,7 +2,7 @@ require(automap)
 require(ggplot2)
 require(RColorBrewer)
 
-#####Geo: The geographic coordinates of each location with 
+#####Geo: The geographic coordinates of each location 
 #####value: The observed value of each location
 #####df_grid: The prediction grid of the interpolation regions
 
