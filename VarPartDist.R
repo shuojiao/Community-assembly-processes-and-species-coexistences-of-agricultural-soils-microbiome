@@ -30,8 +30,8 @@ VarPartDist<-function (Dist_Matrix,Env,Geo,Geo_Co=TRUE,Number_Permutations=999) 
 
 
   ##Test and forward selection of environmental variables
-  mod1<-capscale(bray~.,pc,add=T)
-  mod0<-capscale(bray~1,pc,add=T)
+  mod1<-capscale(Dist_Matrix~.,pc,add=T)
+  mod0<-capscale(Dist_Matrix~1,pc,add=T)
   mod<-ordiR2step(mod0,scope=formula(mod1),perm.max=999)
   Geo.P<-anova.cca(mod,permutations=Number_Permutations)[[4]][1]
   Geo_se<-mod$CCA$biplot
