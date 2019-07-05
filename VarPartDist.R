@@ -20,7 +20,7 @@ VarPartDist<-function (Dist_Matrix,Env,Geo,Geo_Co=TRUE,Number_Permutations=999) 
   pc<-pcnm(dist(geo))$vectors
   pc<-as.data.frame(pc)
 
-  ##Test and forward selection of PCNM variables
+  ##Test and forward selection of environmental variables
   mod1<-capscale(Dist_Matrix~.,Env,add=T)
   mod0<-capscale(Dist_Matrix~1,Env,add=T)
   mod<-ordiR2step(mod0,scope=formula(mod1),perm.max=999)
@@ -29,7 +29,7 @@ VarPartDist<-function (Dist_Matrix,Env,Geo,Geo_Co=TRUE,Number_Permutations=999) 
   Env_se<-Env[,rownames(Env_se)]
 
 
-  ##Test and forward selection of environmental variables
+  ##Test and forward selection of PCNM variables
   mod1<-capscale(Dist_Matrix~.,pc,add=T)
   mod0<-capscale(Dist_Matrix~1,pc,add=T)
   mod<-ordiR2step(mod0,scope=formula(mod1),perm.max=999)
