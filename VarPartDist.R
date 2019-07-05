@@ -64,7 +64,5 @@ VarPartDist<-function (Dist_Matrix,Env,Geo,Geo_Co=TRUE,Number_Permutations=999) 
   return(result)
 }
 
-VarPartDist(bray_ba_ma,env_se,ma[,2:3],Geo_Co=TRUE,999)
-
 
 
