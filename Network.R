@@ -27,7 +27,7 @@ closeness(net)####Closeness centrality
 ###Caculation of network-level topological features
 length(V(net))###Number of nodes
 length(E(net))###Number of edges
-length(E(net))/length(V(g))###Average degree
+length(E(net))/length(V(net))###Average degree
 transitivity(net)###Clustering coefficient
 average.path.length(net)###Average path length
 diameter(net)###Network diameter
