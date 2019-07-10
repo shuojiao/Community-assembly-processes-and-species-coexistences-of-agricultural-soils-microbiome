@@ -8,7 +8,7 @@ net<-function(comun){
      p<-b_to$P
      r[r<0.6]<-0
      p<-p.adjust(p, method="fdr")
-     q<-matrix(p,nrow=ncol(dat),ncol=ncol(dat))
+     q<-matrix(p,nrow=ncol(comun),ncol=ncol(comun))
      q[q<0.01]<-1
      q[q>0.01&q<1]<-0
      gg<-r*q
