@@ -34,28 +34,28 @@ Beta_NTI<-function(phylo,comun,beta.reps=999){
 #RC_bray
 raup_crick= function(comun, reps=999){
   ## count number of sites and total species richness across all plots (gamma)
-  n_sites<-nrow(spXsite)
-  gamma<-ncol(spXsite)
+  n_sites<-nrow(comun)
+  gamma<-ncol(comun)
   ##build a site by site matrix for the results, with the names of the sites in the row and col names:
-  results<-matrix(data=NA, nrow=n_sites, ncol=n_sites, dimnames=list(row.names(spXsite), row.names(spXsite)))
+  results<-matrix(data=NA, nrow=n_sites, ncol=n_sites, dimnames=list(row.names(comun), row.names(comun)))
   ##make the spXsite matrix into a new, pres/abs. matrix:
-  ceiling(spXsite/max(spXsite))->spXsite.inc
+  ceiling(comun/max(comun))->comun.inc
   ##create an occurrence vector- used to give more weight to widely distributed species in the null model:
-  occur<-apply(spXsite.inc, MARGIN=2, FUN=sum)
+  occur<-apply(comun.inc, MARGIN=2, FUN=sum)
   ##create an abundance vector- used to give more weight to abundant species in the second step of the null model:
-  abundance<-apply(spXsite, MARGIN=2, FUN=sum)
+  abundance<-apply(comun, MARGIN=2, FUN=sum)
   ##make_null:
   ##looping over each pairwise community combination:
-  for(null.one in 1:(nrow(spXsite)-1)){
-    for(null.two in (null.one+1):nrow(spXsite)){
+  for(null.one in 1:(nrow(comun)-1)){
+    for(null.two in (null.one+1):nrow(comun)){
       null_bray_curtis<-NULL
       for(i in 1:reps){
         ##two empty null communities of size gamma:
         com1<-rep(0,gamma)
         com2<-rep(0,gamma)
         ##add observed number of species to com1, weighting by species occurrence frequencies:
-        com1[sample(1:gamma, sum(spXsite.inc[null.one,]), replace=FALSE, prob=occur)]<-1
-        com1.samp.sp = sample(which(com1>0),(sum(spXsite[null.one,])-sum(com1)),replace=TRUE,prob=abundance[which(com1>0)]);
+        com1[sample(1:gamma, sum(comun.inc[null.one,]), replace=FALSE, prob=occur)]<-1
+        com1.samp.sp = sample(which(com1>0),(sum(comun[null.one,])-sum(com1)),replace=TRUE,prob=abundance[which(com1>0)]);
         com1.samp.sp = cbind(com1.samp.sp,1); # head(com1.samp.sp);
         com1.sp.counts = as.data.frame(tapply(com1.samp.sp[,2],com1.samp.sp[,1],FUN=sum)); colnames(com1.sp.counts) = 'counts'; # head(com1.sp.counts);
         com1.sp.counts$sp = as.numeric(rownames(com1.sp.counts)); # head(com1.sp.counts);
@@ -63,7 +63,7 @@ raup_crick= function(comun, reps=999){
         #sum(com1) - sum(spXsite[null.one,]); ## this should be zero if everything work properly
         rm('com1.samp.sp','com1.sp.counts');			
         ##same for com2:
-        com2[sample(1:gamma, sum(spXsite.inc[null.two,]), replace=FALSE, prob=occur)]<-1
+        com2[sample(1:gamma, sum(comun.inc[null.two,]), replace=FALSE, prob=occur)]<-1
         com2.samp.sp = sample(which(com2>0),(sum(spXsite[null.two,])-sum(com2)),replace=TRUE,prob=abundance[which(com2>0)]);
         com2.samp.sp = cbind(com2.samp.sp,1); # head(com2.samp.sp);
         com2.sp.counts = as.data.frame(tapply(com2.samp.sp[,2],com2.samp.sp[,1],FUN=sum)); colnames(com2.sp.counts) = 'counts'; # head(com2.sp.counts);
@@ -71,12 +71,12 @@ raup_crick= function(comun, reps=999){
         com2[com2.sp.counts$sp] = com2[com2.sp.counts$sp] + com2.sp.counts$counts; # com2;
         # sum(com2) - sum(spXsite[null.two,]); ## this should be zero if everything work properly
         rm('com2.samp.sp','com2.sp.counts');
-        null.spXsite = rbind(com1,com2); # null.spXsite;
+        null.comun = rbind(com1,com2); # null.comun;
         ##calculate null bray curtis
-        null_bray_curtis[i] = distance(null.spXsite,method='bray-curtis');
+        null_bray_curtis[i] = distance(null.comun,method='bray-curtis');
       }; # end reps loop
       ## empirically observed bray curtis
-      obs.bray = distance(spXsite[c(null.one,null.two),],method='bray-curtis');
+      obs.bray = distance(comun[c(null.one,null.two),],method='bray-curtis');
       ##how many null observations is the observed value tied with?
       num_exact_matching_in_null = sum(null_bray_curtis==obs.bray);
       ##how many null values are smaller than the observed *dissimilarity*?
