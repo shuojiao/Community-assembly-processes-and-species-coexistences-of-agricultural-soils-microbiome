@@ -38,7 +38,7 @@ raup_crick= function(comun, reps=999){
   gamma<-ncol(comun)
   ##build a site by site matrix for the results, with the names of the sites in the row and col names:
   results<-matrix(data=NA, nrow=n_sites, ncol=n_sites, dimnames=list(row.names(comun), row.names(comun)))
-  ##make the spXsite matrix into a new, pres/abs. matrix:
+  ##make the comun matrix into a new, pres/abs. matrix:
   ceiling(comun/max(comun))->comun.inc
   ##create an occurrence vector- used to give more weight to widely distributed species in the null model:
   occur<-apply(comun.inc, MARGIN=2, FUN=sum)
@@ -64,7 +64,7 @@ raup_crick= function(comun, reps=999){
         rm('com1.samp.sp','com1.sp.counts');			
         ##same for com2:
         com2[sample(1:gamma, sum(comun.inc[null.two,]), replace=FALSE, prob=occur)]<-1
-        com2.samp.sp = sample(which(com2>0),(sum(spXsite[null.two,])-sum(com2)),replace=TRUE,prob=abundance[which(com2>0)]);
+        com2.samp.sp = sample(which(com2>0),(sum(comun[null.two,])-sum(com2)),replace=TRUE,prob=abundance[which(com2>0)]);
         com2.samp.sp = cbind(com2.samp.sp,1); # head(com2.samp.sp);
         com2.sp.counts = as.data.frame(tapply(com2.samp.sp[,2],com2.samp.sp[,1],FUN=sum)); colnames(com2.sp.counts) = 'counts'; # head(com2.sp.counts);
         com2.sp.counts$sp = as.numeric(rownames(com2.sp.counts)); # head(com2.sp.counts);
