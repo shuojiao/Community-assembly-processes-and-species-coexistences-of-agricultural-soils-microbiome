@@ -33,6 +33,8 @@ Beta_NTI<-function(phylo,comun,beta.reps=999){
 
 #RC_bray
 raup_crick= function(comun, reps=999){
+  require(ecodist) 
+   
   ## count number of sites and total species richness across all plots (gamma)
   n_sites<-nrow(comun)
   gamma<-ncol(comun)
