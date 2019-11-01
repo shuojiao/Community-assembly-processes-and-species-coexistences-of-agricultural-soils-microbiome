@@ -12,7 +12,7 @@ Neutral.fit <- function(comun, stats=TRUE){
 	options(warn=-1)
 
 	#Calculate the number of individuals per community
-	N <- mean(apply(comun, 1, sum))
+	N <- round(mean(apply(comun, 1, sum)))
 	
 	#Calculate the average relative abundance of each taxa across communities
 	p.m <- apply(comun, 2, mean)
